@@ -1,0 +1,46 @@
+{
+  "manifest_version": 3,
+  "name": "Red Music Locker — Account Linker",
+  "version": "1.1.0",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1p1IcBbeG1td7ANSi82r70FyadFHV0UYE7Ehzx425OTnc1d987Pmth6xcw22TLpBn6XvVIzSH7Cbcd9jPAY5uSx204JGmhkg8EFCJa/CSrOx9cDsQ7KyuP4LW4Yta3IsTy2mXJmx9/4e+DFINccWoE09540vv2w6PFbUX7fWNBXvjEKHLas60y4kC2JBYQYKDo9k8SnowkK6330TDPiwvl/rdlaw4JCU5YFPsuctRxj8BO5VUskn/YV9TQ8BqKIlsc5iAm7IZkHwgQz9L2fxRxKUB5KA+wF8uhnJ11kklWUXdeaZ5E3xGBQXYLhZdW5hdTJo2pmvqylmIcAGB8yjjwIDAQAB",
+  "description": "Seamlessly link your YouTube Music account to your self-hosted Red Music Locker server with 1 click.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "cookies",
+    "activeTab",
+    "storage"
+  ],
+  "host_permissions": [
+    "*://music.youtube.com/*",
+    "*://*.youtube.com/*"
+  ],
+  "optional_host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://music.youtube.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Red Music Locker Account Linker",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  }
+}

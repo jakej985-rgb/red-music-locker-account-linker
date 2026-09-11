@@ -1,0 +1,11 @@
+# Security & Secrets
+*.pem
+*.key
+*.token
+
+# Built binaries
+*.crx
+
+# OS metadata
+.DS_Store
+Thumbs.db

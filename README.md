@@ -18,7 +18,7 @@ With this companion extension:
 ## Installation & Stores
 
 ### Option 1: Firefox Add-ons (AMO)
-Install the **Red Music Locker — Account Linker** directly from the [Firefox Add-ons Marketplace](https://addons.mozilla.org/).
+Install the **Red Music Locker — Account Linker** directly from the [Firefox Add-ons Marketplace](https://addons.mozilla.org/en-US/firefox/addon/red-music-locker-account-link/).
 
 ### Option 2: Chrome / Brave / Edge / Chromium (Developer Mode)
 Because Chromium browsers strictly block silent background side-loading of local extensions:

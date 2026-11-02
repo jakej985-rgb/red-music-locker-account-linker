@@ -59,6 +59,10 @@
       outline: none;
       border-color: #e53935;
     }
+    input:focus-visible, button:focus-visible {
+      outline: 2px solid #e53935;
+      outline-offset: 2px;
+    }
     button {
       width: 100%;
       padding: 10px;
@@ -122,7 +126,7 @@
   <p>1-click authentication companion for Red Music Locker.</p>
 
   <label for="server-url">Red Music Locker Server URL</label>
-  <input type="url" id="server-url" placeholder="http://localhost:8080" />
+  <input type="url" id="server-url" placeholder="http://localhost:8080" required spellcheck="false" autocomplete="url" />
 
   <button id="link-btn">
     <span id="btn-text">Link Account Now</span>
@@ -131,7 +135,7 @@
     Copy Headers (Manual Fallback)
   </button>
 
-  <div id="status-msg"></div>
+  <div id="status-msg" aria-live="polite" role="status"></div>
 
   <script src="popup.js"></script>
 </body>

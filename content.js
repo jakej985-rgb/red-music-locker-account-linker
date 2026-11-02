@@ -1,5 +1,10 @@
 // Content script injected into music.youtube.com for Red Music Locker
 (function () {
+  // Fast path: avoid expensive URLSearchParams parsing on 99% of normal page loads
+  if (!window.location.href.includes("ytm_sync_session")) {
+    return;
+  }
+
   const searchParams = new URLSearchParams(window.location.search);
   const hashParams = new URLSearchParams(window.location.hash.replace(/^#\??/, ""));
 

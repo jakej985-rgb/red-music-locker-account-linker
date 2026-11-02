@@ -44,6 +44,17 @@ async function extractAuthHeaders() {
 }
 
 async function linkAccount(callbackUrl, sessionId, token) {
+  // SSRF Protection: Validate callback URL against user configuration
+  const storedPrefs = await chrome.storage.local.get(["red_music_locker_server", "ytm_sync_server"]);
+  const allowedServer = storedPrefs.red_music_locker_server || storedPrefs.ytm_sync_server || "http://localhost:8080";
+
+  const targetOrigin = new URL(callbackUrl).origin;
+  const allowedOrigin = new URL(allowedServer).origin;
+
+  if (targetOrigin !== allowedOrigin && targetOrigin !== "http://localhost:8080" && targetOrigin !== "http://127.0.0.1:8080") {
+    throw new Error(`Security Error: Untrusted callback URL (${targetOrigin}). It does not match your configured server (${allowedOrigin}).`);
+  }
+
   const headers = await extractAuthHeaders();
   const endpoint = `${callbackUrl.replace(/\/+$/, "")}/api/auth/callback`;
 

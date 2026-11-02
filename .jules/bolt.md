@@ -1,0 +1,3 @@
+## 2024-11-02 - Fast-path execution for content scripts
+**Learning:** Content scripts in browser extensions that run on `document_start` and match broad URLs (like `*://music.youtube.com/*`) will execute on *every single page load*. If the script relies on heavy parsing (like `URLSearchParams` over complex URLs), it degrades performance for 99% of browsing sessions where the script's actual functionality isn't needed.
+**Action:** Always wrap heavy content script initialization logic in a fast string search (like `window.location.href.includes(...)`) before performing object instantiations or complex regex parsing.

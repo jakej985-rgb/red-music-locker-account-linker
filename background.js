@@ -67,12 +67,30 @@ async function extractAuthHeaders() {
 }
 
 async function linkAccount(callbackUrl, sessionId, token) {
-  // SSRF Protection: Validate callback URL against user configuration
+  // SSRF & Credential Exfiltration Protection:
+  // Validate callbackUrl scheme, format, and ensure origin strictly matches configured server or trusted localhost.
+  let parsedTarget;
+  try {
+    parsedTarget = new URL(callbackUrl);
+  } catch (_) {
+    throw new Error("Security Error: Invalid callback URL format.");
+  }
+
+  if (parsedTarget.protocol !== "http:" && parsedTarget.protocol !== "https:") {
+    throw new Error(`Security Error: Unsupported protocol '${parsedTarget.protocol}'. Only http/https are allowed.`);
+  }
+
   const storedPrefs = await chrome.storage.local.get(["red_music_locker_server", "ytm_sync_server"]);
   const allowedServer = storedPrefs.red_music_locker_server || storedPrefs.ytm_sync_server || "http://localhost:8080";
 
-  const targetOrigin = new URL(callbackUrl).origin;
-  const allowedOrigin = new URL(allowedServer).origin;
+  let allowedOrigin;
+  try {
+    allowedOrigin = new URL(allowedServer).origin;
+  } catch (_) {
+    allowedOrigin = "http://localhost:8080";
+  }
+
+  const targetOrigin = parsedTarget.origin;
 
   if (targetOrigin !== allowedOrigin && targetOrigin !== "http://localhost:8080" && targetOrigin !== "http://127.0.0.1:8080") {
     throw new Error(`Security Error: Untrusted callback URL (${targetOrigin}). It does not match your configured server (${allowedOrigin}).`);

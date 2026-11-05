@@ -56,6 +56,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     serverInput.setAttribute("aria-invalid", "false");
 
+    // Input validation: ensure serverUrl is a valid HTTP/HTTPS URL
+    try {
+      const parsed = new URL(serverUrl);
+      if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+        showStatus("Invalid URL: Only http:// or https:// URLs are supported", true);
+        return;
+      }
+    } catch (_) {
+      showStatus("Invalid URL: Please enter a valid server URL (e.g. http://localhost:8080)", true);
+      return;
+    }
+
     chrome.storage.local.set({ red_music_locker_server: serverUrl });
 
     linkBtn.disabled = true;

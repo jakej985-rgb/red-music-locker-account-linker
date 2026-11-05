@@ -28,14 +28,33 @@ document.addEventListener("DOMContentLoaded", async () => {
     statusMsg.style.display = "none";
   }
 
+  // Clear validation styling when user edits input
+  serverInput.addEventListener("input", () => {
+    serverInput.setAttribute("aria-invalid", "false");
+    if (statusMsg.className === "error") {
+      hideStatus();
+    }
+  });
+
+  // Allow Enter key to trigger linking from the URL input
+  serverInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      linkBtn.click();
+    }
+  });
+
   // Handle 1-click Link Account
   linkBtn.addEventListener("click", async () => {
     hideStatus();
     const serverUrl = serverInput.value.trim().replace(/\/+$/, "");
     if (!serverUrl) {
+      serverInput.setAttribute("aria-invalid", "true");
+      serverInput.focus();
       showStatus("Please enter your Red Music Locker server URL", true);
       return;
     }
+    serverInput.setAttribute("aria-invalid", "false");
 
     chrome.storage.local.set({ red_music_locker_server: serverUrl });
 
